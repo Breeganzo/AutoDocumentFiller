@@ -1,0 +1,14 @@
+# Ticket Template
+Title: {title}
+
+## Overview
+{context}
+
+## Related Changes
+Pull Request: {pr_url}
+
+## Action Items
+- [ ] Review infrastructure changes
+- [ ] Validate cost implications
+- [ ] Schedule deployment window
+- [ ] Update monitoring thresholds

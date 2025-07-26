@@ -1,0 +1,11 @@
+## Ticket Auto-Generated
+
+**Title:** {title}
+
+**Context:**
+{context}
+
+**Detail:**
+Automatically generated as part of scaling the EC2 workload using Terraform changes.
+
+**Linked PR:** {pr_url}

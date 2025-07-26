@@ -1,0 +1,17 @@
+# Spec: Infrastructure Scaling
+
+## Summary
+This document details the automated scaling request for EC2 instances.
+
+## Change Reason
+{reason}
+
+## Terraform Diff
+{diff}
+
+## Impact
+- Availability
+- Cost
+- Security
+
+**Automation Trigger:** Pull Request {pr_url}

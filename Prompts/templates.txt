@@ -1,0 +1,10 @@
+You are an AI assistant writing technical documentation for infrastructure changes.
+
+The request is:
+
+{context}
+
+Write a professional, detailed pull request description that summarizes what has changed, why, and the impact (consider security, performance, cost).
+
+---
+Description:
