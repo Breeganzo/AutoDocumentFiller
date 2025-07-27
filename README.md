@@ -106,18 +106,18 @@ AutoDocumentFiller/
    CONFLUENCE_SPACE=your-space
    OPENAI_API_KEY=your-openai-api-key
    ```
-```
-   Note:
+
+**Note:**
    Replace all placeholders with your real tokens and keys.
    Do not commit .env to public repositories (add .env to .gitignore).
 
-   Getting Started
+## Getting Started:
 1. Prepare Python Environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate           # macOS/Linux
-      # Windows PowerShell
-   venv\Scripts\activate.bat
+   source venv/bin/activate     # macOS/Linux
+
+   venv\Scripts\activate.bat   # Windows PowerShell
   ```
 2. Install dependencies using pip:
    ```bash
@@ -128,23 +128,21 @@ AutoDocumentFiller/
    ```bash
    python3 main.py
    ```
-
-   ```
 ## This script will:
 
-Create a feature GitLab branch and commit terraform changes.
+ - Create a feature GitLab branch and commit terraform changes.
 
-Auto-generate an MR description using DocAutoFiller.
+ - Auto-generate an MR description using DocAutoFiller.
 
-Create or update Jira tickets and generate summaries.
+ - Create or update Jira tickets and generate summaries.
 
-Predict sprint velocity based on Jira historical sprint data.
+ - Predict sprint velocity based on Jira historical sprint data.
 
-Suggest splitting large stories using StorySplitter.
+ - Suggest splitting large stories using StorySplitter.
 
-Create or update technical specification pages in Confluence.
+ - Create or update technical specification pages in Confluence.
 
-Locally store all generated content for audit and traceability.
+ - Locally store all generated content for audit and traceability.
 
 4. Run Unit Tests (Optional):
    ```bash
