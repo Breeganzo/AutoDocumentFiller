@@ -13,13 +13,13 @@ AutoDocFiller is an automated documentation and workflow management system that 
 ## High-Level Workflow
 ```mermaid
 graph TD
-    A[Developer Proposes Change (e.g., Terraform Code Update)] --> B[Create New GitLab Branch]
+    A[Developer Proposes Change: Terraform Code Update] --> B[Create New GitLab Branch]
     B --> C[Commit & Push Code Changes]
     C --> D[Create GitLab Merge Request (MR)]
     D --> E[DocAutoFiller: Auto-Generate MR Description]
     D --> F[DocAutoFiller: Create/Update Tech Spec Page in Confluence]
     D --> G[DocAutoFiller: Create or Update JIRA Ticket if required]
-    G --> H[TicketSummarizer: Summarize JIRA Ticket(s)]
+    G --> H[TicketSummarizer: Summarize JIRA Ticket's]
     E --> I[StorySplitter: Analyze MR or JIRA Ticket for Large Stories]
     I --> J[Suggest or Create Smaller Stories/Subtasks]
     G --> K[SprintVelocityPredictor: Analyze Past Sprints from Jira]
