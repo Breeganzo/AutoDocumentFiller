@@ -159,17 +159,3 @@ AutoDocumentFiller/
 - **StorySplitter**: Inspects and proposes splitting large Jira stories into smaller actionable tasks
 - **SprintVelocityPredictor**: Predicts upcoming sprint velocity via ML regression on historical Jira sprint data
 
-## Notes and Recommendations
-
-- Keep prompt templates in the Prompts/ folder editable to quickly customize AI output styles.
-
-- Verify your Jira custom fields correspond to those referenced in agent codes (story points, sprints).
-
-- Implement page existence checks in ConfluenceClient before creating pages to avoid duplicates (update when present).
-
-- Monitor and secure API tokens; avoid hardcoding secrets in code.
-
-## Summary
-AutoDocFiller automates and enhances Agile engineering workflows by integrating core dev and project management platforms with intelligent AI agents. The modular architecture allows iterative extension to other ChatX categories beyond Chat1.
-
-If you want me to help prepare example CLI commands or usage scripts to run specific agents standalone, just ask!
