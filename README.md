@@ -118,7 +118,7 @@ AutoDocumentFiller/
    source venv/bin/activate     # macOS/Linux
 
    venv\Scripts\activate.bat   # Windows PowerShell
-  ```
+   ```
 2. Install dependencies using pip:
    ```bash
    pip3 install -r requirements.txt
