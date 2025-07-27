@@ -1,14 +1,18 @@
 # AutoDocFiller Project
 
 ## Project Overview
-AutoDocFiller is an automated documentation and workflow management system that integrates multiple services (GitLab, JIRA, Confluence) to streamline the infrastructure change process. It uses AI to generate human-readable documentation, summaries, and specifications.
+AutoDocFiller is an automated documentation and Agile workflow management system that integrates GitLab, Jira, and Confluence to streamline infrastructure change processes and team collaboration. It leverages AI (via OpenAI-powered LLMs) to generate clear, context-aware documentation, ticket summaries, tech specs, sprint velocity predictions, and story splitting suggestions.
+
+This solution reduces manual effort while ensuring consistent, accurate, and traceable documentation coverage throughout the development lifecycle.
 
 ## Key Features
-- 🔄 **Automated Workflow Integration**: Seamlessly connects GitLab, JIRA, and Confluence
-- 🤖 **AI-Powered Documentation**: Uses Perplexity AI for generating clear, context-aware documentation
-- 📝 **Smart Ticket Management**: Creates and updates JIRA tickets with detailed summaries
-- 📚 **Specification Generation**: Automatically creates technical specifications in Confluence
-- 💾 **Local Storage**: Maintains local copies of all generated content for backup and reference
+- 🔄 **Automated Workflow Integration**: Seamlessly connects GitLab, JIRA, and Confluence APIs for data synchronization and ticket management.
+- 🤖 **AI-Powered Documentation**: Uses large language models to auto-generate pull request (MR) descriptions and technical documentation.
+- 📝 **Smart Ticket Management**: Automatically generates concise Jira ticket summaries for better Agile ceremonies.
+- 📊 **Sprint Velocity Prediction**: Employs machine learning methods to predict future sprint capacity using historical Jira sprint data.
+- ✂️ **Story Splitting Assistance**: Suggests splitting large Agile stories into smaller manageable tasks.
+- 💾 **Local Storage & Audit**: Stores generated summaries, specs, and reports locally for traceability and historical analysis.
+
 
 ## High-Level Workflow
 ```mermaid
@@ -55,53 +59,119 @@ graph TD
 ## Project Structure
 ```
 AutoDocumentFiller/
-├── agents/                 # AI Agents for content generation
-├── apis/                  # API clients for external services
-├── Prompts/               # Templates for AI generation
-├── specs/                 # Specification templates
-├── summaries/            # Local storage for generated content
-│   ├── jira/            
-│   ├── confluence/       
-│   └── merge_requests/   
-└── terraform/            # Infrastructure code
+├── agents/                          # AI Agents for content generation and Agile automation
+│   ├── doc_autofiller_agent.py     # Main documentation generation agent
+│   ├── ticket_summarizer_agent.py  # Jira ticket summarization agent
+│   ├── sprint_velocity_predictor.py # Sprint velocity forecasting agent
+│   └── story_splitter.py           # Agile story splitting agent
+├── apis/                           # API clients for external integrations
+│   ├── gitlab_client.py            # GitLab API integration
+│   ├── jira_client.py              # Jira API integration
+│   ├── confluence_client.py        # Confluence API integration
+│   └── summary_storage.py          # Local storage management for summaries and docs
+├── Prompts/                        # AI prompt templates for all agents
+│   ├── templates.txt               # DocAutoFiller general prompt templates
+│   ├── ticket_summary_prompt.txt  # Ticket summarization prompt
+│   └── tickets.txt                 # Additional ticket related prompts or templates
+├── specs/                         # Specification document templates
+│   └── spec_template.txt          # Technical specification template
+├── summaries/                     # Local storage for generated summaries & docs
+│   ├── jira/                      # Jira ticket summaries storage
+│   ├── confluence/                # Confluence spec documents storage
+│   └── merge_requests/            # Merge Request descriptions storage
+├── tickets/                       # Ticket management related text/templates
+│   └── tickets_template.txt       # Ticket template examples
+├── tests/                        # Unit and integration tests
+│   └── test_doc_autofiller.py    # Tests for DocAutoFiller agent logic
+├── analysis_outputs/              # Outputs for velocity prediction or analytics
+│   └── (generated analysis JSON and logs)
+├── terraform/                    # Infrastructure-as-code (Terraform) files
+│   └── main.tf                   # Sample terraform configuration
+├── main.py                      # Primary orchestrator of the entire workflow
+└── test_velocity_prediction.py   # Standalone test file for velocity predictor agent
 ```
 
 ## Getting Started
-1. Set up environment variables:
+## Set up environment variables:
    ```bash
    JIRA_URL=https://your-domain.atlassian.net
    JIRA_USER=your-email
    JIRA_TOKEN=your-token
    GITLAB_URL=your-gitlab-url
    GITLAB_TOKEN=your-token
+   GITLAB_PROJECT_ID=your-project-id
+   CONFLUENCE_URL=https://your-domain.atlassian.net/wiki
+   CONFLUENCE_USER=your-email
+   CONFLUENCE_TOKEN=your-token
    CONFLUENCE_SPACE=your-space
+   OPENAI_API_KEY=your-openai-api-key
    ```
+```
+   Note:
+   Replace all placeholders with your real tokens and keys.
+   Do not commit .env to public repositories (add .env to .gitignore).
 
-2. Run the main workflow:
+   Getting Started
+1. Prepare Python Environment:
    ```bash
-   python main.py
+   python -m venv venv
+   source venv/bin/activate           # macOS/Linux
+      # Windows PowerShell
+   venv\Scripts\activate.bat
+  ```
+2. Install dependencies using pip:
+   ```bash
+   pip3 install -r requirements.txt
+   pip3 install -U langchain-openai jira scikit-learn
+   ```
+3. Run the workflow:
+   ```bash
+   python3 main.py
    ```
 
-## Use Cases
-1. **Infrastructure Changes**
-   - Automates documentation for terraform changes
-   - Creates complete audit trail
-   - Maintains consistent documentation
+   ```
+## This script will:
 
-2. **Status Updates**
-   - Generates concise ticket summaries
-   - Updates JIRA tickets automatically
-   - Provides quick access to historical changes
+Create a feature GitLab branch and commit terraform changes.
 
-3. **Documentation Management**
-   - Centralizes technical specifications
-   - Maintains version history
-   - Ensures documentation consistency
+Auto-generate an MR description using DocAutoFiller.
 
-## Benefits
-- ⏱️ **Time Savings**: Automates repetitive documentation tasks
-- 🎯 **Consistency**: Ensures uniform documentation across projects
-- 📊 **Traceability**: Maintains clear links between changes, tickets, and docs
-- 🤝 **Collaboration**: Improves team communication through centralized documentation
+Create or update Jira tickets and generate summaries.
 
-For detailed technical documentation, see [TECHNICAL_DOCS.md](./TECHNICAL_DOCS.md)
+Predict sprint velocity based on Jira historical sprint data.
+
+Suggest splitting large stories using StorySplitter.
+
+Create or update technical specification pages in Confluence.
+
+Locally store all generated content for audit and traceability.
+
+4. Run Unit Tests (Optional):
+   ```bash
+   pytest tests/test_doc_autofiller.py
+   ```
+5. Velocity Prediction Test (Optional):
+   ```bash
+   python3 test_velocity_prediction.py
+   ```
+
+## How each agent works:
+- **DocAutoFiller**: Generates human-readable MR descriptions and creates/updates Confluence specs
+- **TicketSummarizer**: Fetches and summarizes Jira tickets into concise updates for Agile meetings
+- **StorySplitter**: Inspects and proposes splitting large Jira stories into smaller actionable tasks
+- **SprintVelocityPredictor**: Predicts upcoming sprint velocity via ML regression on historical Jira sprint data
+
+## Notes and Recommendations
+
+- Keep prompt templates in the Prompts/ folder editable to quickly customize AI output styles.
+
+- Verify your Jira custom fields correspond to those referenced in agent codes (story points, sprints).
+
+- Implement page existence checks in ConfluenceClient before creating pages to avoid duplicates (update when present).
+
+- Monitor and secure API tokens; avoid hardcoding secrets in code.
+
+## Summary
+AutoDocFiller automates and enhances Agile engineering workflows by integrating core dev and project management platforms with intelligent AI agents. The modular architecture allows iterative extension to other ChatX categories beyond Chat1.
+
+If you want me to help prepare example CLI commands or usage scripts to run specific agents standalone, just ask!
