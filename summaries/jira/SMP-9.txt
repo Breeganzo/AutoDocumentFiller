@@ -1,0 +1,39 @@
+Summary for SMP-9
+Generated on: 2025-07-27_15-16-33
+--------------------------------------------------------------------------------
+
+To scale up EC2 instances using Terraform, you typically update the **desired_capacity** (and possibly **min_size** and **max_size**) in your Auto Scaling Group (ASG) resource within `terraform/main.tf`[2][3]. After committing and merging the change, Terraform will reconcile the infrastructure to match the new configuration.
+
+**Key steps and context for your ticket:**
+
+- **Review infrastructure changes:**  
+  Confirm that the `desired_capacity`, `min_size`, and `max_size` values in the ASG resource are set appropriately for your scaling needs. For example:
+  ```hcl
+  resource "aws_autoscaling_group" "autoscale" {
+    desired_capacity = 3
+    min_size         = 3
+    max_size         = 6
+    # ...other config...
+  }
+  ```
+  This ensures the group maintains at least 3 and up to 6 EC2 instances, scaling as needed[2][3].
+
+- **Validate cost implications:**  
+  Increasing the number of EC2 instances will raise AWS costs proportionally. Review the instance type, region, and count to estimate the new monthly spend. AWS Pricing Calculator or the Terraform plan output can help estimate these costs.
+
+- **Schedule deployment window:**  
+  Plan the deployment during a low-traffic period to minimize risk. Running `terraform plan` will show the proposed changes, and `terraform apply` will enact them[1].
+
+- **Update monitoring thresholds:**  
+  If you use monitoring tools (e.g., CloudWatch, Zabbix), ensure thresholds and alarms are updated to reflect the new instance count. For dynamic environments, consider automating instance naming or monitoring registration using user data scripts[4].
+
+**Additional notes:**
+- If you use a load balancer, verify that it distributes traffic across all new instances after scaling[1].
+- If you use variables for instance counts, ensure these are updated in `variables.tf` and referenced correctly in `main.tf`[3].
+- After deployment, validate that all instances are healthy and serving traffic as expected.
+
+**Caveats:**
+- If your ASG uses a launch configuration instead of a launch template, consider migrating to launch templates for better flexibility and AWS best practices[2].
+- Directly scaling EC2 instances outside of an ASG is not recommended for production workloads; always use ASGs for automated scaling and health checks[1][2][3].
+
+This approach aligns with Terraform and AWS best practices for scaling EC2 infrastructure.

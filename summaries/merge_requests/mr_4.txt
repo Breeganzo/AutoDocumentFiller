@@ -1,0 +1,38 @@
+Summary for mr_4
+Generated on: 2025-07-27_15-16-25
+--------------------------------------------------------------------------------
+
+This pull request updates the Terraform configuration in **terraform/main.tf** to increase the number of EC2 instances managed by our infrastructure.
+
+**Summary of Changes**
+- Increased the EC2 instance count parameter to scale up the number of running instances.
+- Updated relevant resource blocks to reflect the new desired capacity.
+
+**Reason for Change**
+- The increase in EC2 instance count is intended to improve application **scalability** and **performance**, particularly in anticipation of higher traffic or workload demands.
+- This change supports business continuity by reducing the risk of resource exhaustion and improving response times during peak usage periods[2].
+
+**Impact Assessment**
+
+- **Performance:**  
+  More EC2 instances will distribute workload more evenly, reducing latency and improving application responsiveness under load[2].
+
+- **Cost:**  
+  Increasing the number of EC2 instances will proportionally raise AWS compute costs. The actual impact will depend on the new instance count and instance types used. It is recommended to monitor usage and adjust as needed to balance performance and budget.
+
+- **Security:**  
+  No changes have been made to security groups, IAM roles, or network configurations. The security posture remains unchanged. However, a larger instance fleet increases the surface area for potential vulnerabilities, so ongoing monitoring and patch management remain important[4].
+
+- **Reliability:**  
+  Scaling out improves fault tolerance and availability, especially if instances are distributed across multiple availability zones[2].
+
+**Additional Notes**
+- If using an Auto Scaling Group (ASG), the desired/min/max capacity parameters have been updated accordingly. This enables automated scaling and can help optimize costs if scaling policies are in place[1][2].
+- No changes have been made to instance types, launch templates, or other infrastructure components.
+- No downtime is expected as a result of this change.
+
+**Action Required**
+- Review and approve the updated **main.tf**.
+- After merging, apply the Terraform plan to provision the additional EC2 instances.
+
+Please reach out if further details or a cost estimate are required.

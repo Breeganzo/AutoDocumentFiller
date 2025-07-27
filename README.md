@@ -1,57 +1,97 @@
-# AutoDocumentFiller
-Automatically generate documentation (PR, tickets, specs) in Confluence or GitLab
+# AutoDocFiller Project
 
+## Project Overview
+AutoDocFiller is an automated documentation and workflow management system that integrates multiple services (GitLab, JIRA, Confluence) to streamline the infrastructure change process. It uses AI to generate human-readable documentation, summaries, and specifications.
 
-docautofiller/
-│
-├── terraform/
-│   └── main.tf                        # Sample Terraform code
-├── agents/
-│   └── doc_autofiller_agent.py        # Agent logic for LLM prompting
-├── apis/
-│   ├── gitlab_client.py               # GitLab API client
-│   └── confluence_client.py           # Confluence API client
-├── prompts/
-│   └── templates.txt                  # Prompt templates for AI
-├── tickets/
-│   └── ticket_template.txt            # Ticket template text
-├── specs/
-│   └── spec_template.txt              # Spec template text
-├── main.py                            # Entrypoint, full pipeline
-├── requirements.txt                   # Python dependencies
-├── README.md                          # Project documentation (see below)
-└── tests/
-    └── test_doc_autofiller.py         # Unit/integration tests
+## Key Features
+- 🔄 **Automated Workflow Integration**: Seamlessly connects GitLab, JIRA, and Confluence
+- 🤖 **AI-Powered Documentation**: Uses Perplexity AI for generating clear, context-aware documentation
+- 📝 **Smart Ticket Management**: Creates and updates JIRA tickets with detailed summaries
+- 📚 **Specification Generation**: Automatically creates technical specifications in Confluence
+- 💾 **Local Storage**: Maintains local copies of all generated content for backup and reference
 
-# DocAutoFiller: Automated Documentation for Infrastructure as Code
+## High-Level Workflow
+```mermaid
+graph TD
+    A[Infrastructure Change] --> B[Create GitLab Branch]
+    B --> C[Generate Merge Request]
+    C --> D[Create JIRA Ticket]
+    D --> E[Generate Tech Spec]
+    E --> F[Update Confluence]
+    F --> G[Store Summaries Locally]
+```
 
-This project demonstrates how to **automatically generate documentation** (PR/MR descriptions, tickets, specs) for Terraform infrastructure changes. When you update the code (e.g., increase EC2 instance count), the system:
+## Components
+1. **GitLab Integration**
+   - Manages code changes
+   - Creates branches and merge requests
+   - Tracks infrastructure modifications
 
-- Creates a new GitLab branch and commits the change.
-- Auto-generates a Merge Request (MR/PR) with an LLM-powered description.
-- Outputs a ticket template describing the change.
-- Publishes a detailed specification page in Confluence.
+2. **JIRA Integration**
+   - Creates and updates tickets
+   - Tracks work progress
+   - Generates AI-powered summaries
+
+3. **Confluence Integration**
+   - Stores technical specifications
+   - Maintains documentation history
+   - Ensures knowledge persistence
+
+4. **Local Storage System**
+   - Maintains JSON and TXT formats
+   - Organizes by category (JIRA, Confluence, Merge Requests)
+   - Provides easy access to historical data
 
 ## Project Structure
+```
+AutoDocumentFiller/
+├── agents/                 # AI Agents for content generation
+├── apis/                  # API clients for external services
+├── Prompts/               # Templates for AI generation
+├── specs/                 # Specification templates
+├── summaries/            # Local storage for generated content
+│   ├── jira/            
+│   ├── confluence/       
+│   └── merge_requests/   
+└── terraform/            # Infrastructure code
+```
 
-- **terraform/main.tf:** Your sample Terraform AWS EC2 configuration.
-- **agents/:** Agent logic for AI writing.
-- **apis/:** API clients for GitLab and Confluence.
-- **prompts/, tickets/, specs/:** Templates for description, tickets, and specs.
-- **main.py:** Orchestrates the code, from committing to documentation.
-- **tests/:** Minimal tests.
+## Getting Started
+1. Set up environment variables:
+   ```bash
+   JIRA_URL=https://your-domain.atlassian.net
+   JIRA_USER=your-email
+   JIRA_TOKEN=your-token
+   GITLAB_URL=your-gitlab-url
+   GITLAB_TOKEN=your-token
+   CONFLUENCE_SPACE=your-space
+   ```
 
-## Prerequisites
+2. Run the main workflow:
+   ```bash
+   python main.py
+   ```
 
-- Python 3.8+
-- **VSCode** or your preferred editor.
-- **Git** installed
-- **GitLab** account and API Token
-- **Confluence** account and API Token
-- **OpenAI API key** (or update agent logic for another LLM provider)
-- Your GitLab project must already exist (store its numeric project ID)
+## Use Cases
+1. **Infrastructure Changes**
+   - Automates documentation for terraform changes
+   - Creates complete audit trail
+   - Maintains consistent documentation
 
-## Setup
+2. **Status Updates**
+   - Generates concise ticket summaries
+   - Updates JIRA tickets automatically
+   - Provides quick access to historical changes
 
-1. **Clone this repository**  
-2. **Install dependencies:**  
+3. **Documentation Management**
+   - Centralizes technical specifications
+   - Maintains version history
+   - Ensures documentation consistency
+
+## Benefits
+- ⏱️ **Time Savings**: Automates repetitive documentation tasks
+- 🎯 **Consistency**: Ensures uniform documentation across projects
+- 📊 **Traceability**: Maintains clear links between changes, tickets, and docs
+- 🤝 **Collaboration**: Improves team communication through centralized documentation
+
+For detailed technical documentation, see [TECHNICAL_DOCS.md](./TECHNICAL_DOCS.md)

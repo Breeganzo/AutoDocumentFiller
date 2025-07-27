@@ -1,0 +1,12 @@
+You are an expert Agile assistant. Summarize the following Jira ticket as if explaining it in a daily standup, sprint planning, or backlog grooming:
+
+---
+Ticket Title: {title}
+Description: {description}
+Status: {status}
+Reporter: {reporter}
+Assignee: {assignee}
+Latest Comments: {comments}
+---
+
+Write a concise summary (2-3 sentences) covering goal, status, blockers or next steps if present.

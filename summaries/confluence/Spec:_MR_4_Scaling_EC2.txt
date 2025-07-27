@@ -1,0 +1,34 @@
+Summary for Spec:_MR_4_Scaling_EC2
+Generated on: 2025-07-27_15-16-43
+--------------------------------------------------------------------------------
+
+Increasing the **aws_instance.web count from 2 to 5** in your Terraform configuration will scale up the number of EC2 instances serving web traffic. This change directly impacts **availability**, **cost**, and **security**.
+
+**Availability**
+- Increasing the number of web EC2 instances improves **availability** and **fault tolerance**. More instances mean your application can handle higher traffic and remain resilient if one or more instances fail[1][2].
+- For optimal reliability, ensure that instances are distributed across multiple **Availability Zones** and consider using **placement groups** if you have specific network or performance requirements[1].
+
+**Cost**
+- Scaling from 2 to 5 EC2 instances will **increase your AWS costs** proportionally, as you are running more compute resources[1].
+- Review your instance types to ensure you are not over-provisioning. Using the wrong instance family or size can lead to unnecessary expenses[1].
+- Enabling **detailed monitoring** (for one-minute CloudWatch metrics) can further increase costs but provides better scaling responsiveness[2][3].
+
+**Security**
+- More instances mean a larger attack surface. Ensure all new instances are launched with the correct **security groups**, **IAM roles**, and **patch levels**[1][5].
+- Use **launch templates** to standardize security configurations across all instances[1].
+- Regularly audit security group rules and instance configurations to avoid misconfigurations as you scale[5].
+
+**Best Practices**
+- Use **Auto Scaling Groups (ASGs)** rather than manually setting instance counts, so scaling can be automated based on real-time metrics[1][2].
+- Enable **health checks** (preferably at both EC2 and ELB levels) to ensure only healthy instances serve traffic[2].
+- Group instances by purpose (e.g., separate ASGs for web, backend, batch) for more precise scaling and cost control[1].
+- Set up **notifications** for scaling events to monitor changes and respond quickly to issues[2].
+
+**Automation Trigger**
+- The scaling change is triggered by a **pull request**. Ensure your CI/CD pipeline includes validation steps for infrastructure changes, such as automated security checks and cost estimation.
+
+**Caveats**
+- If you are not using Auto Scaling Groups, you will need to manually adjust the instance count for future scaling needs.
+- Ensure your application and database layers can also handle the increased load to avoid bottlenecks elsewhere.
+
+In summary, increasing EC2 instance count improves availability but raises costs and security considerations. Automating scaling with best practices and regular audits will help maintain a reliable, secure, and cost-effective infrastructure[1][2][3][5].
