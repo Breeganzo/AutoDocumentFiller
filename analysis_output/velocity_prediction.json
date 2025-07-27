@@ -1,0 +1,20 @@
+{
+  "predicted_velocity": 0.0,
+  "confidence_interval": [
+    0,
+    0.0
+  ],
+  "trend_analysis": {
+    "trend": "decreasing",
+    "stability_index": NaN,
+    "model_used": "linear",
+    "model_score": -0.0
+  },
+  "risk_factors": [
+    "Decreasing velocity trend"
+  ],
+  "recommendations": [
+    "Investigate velocity decline"
+  ],
+  "message": "Prediction successful using advanced ML techniques."
+}

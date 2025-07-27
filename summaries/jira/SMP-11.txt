@@ -1,0 +1,56 @@
+Summary for SMP-11
+Generated on: 2025-07-27_19-50-19
+--------------------------------------------------------------------------------
+
+The ticket proposes a **Terraform update to increase the number of EC2 instances** by modifying the `terraform/main.tf` file, likely by adjusting the Auto Scaling Group (ASG) or EC2 instance count parameters. Here is the context and recommended actions based on best practices and the provided information:
+
+**Key Context and Supporting Details:**
+
+- **Scaling EC2 Instances with Terraform:**  
+  To scale EC2 instances, you typically adjust the `desired_capacity`, `min_size`, and `max_size` parameters in the `aws_autoscaling_group` resource within your Terraform configuration[3][4]. For example:
+  ```hcl
+  resource "aws_autoscaling_group" "autoscale" {
+    desired_capacity = 3
+    min_size         = 3
+    max_size         = 6
+    ...
+  }
+  ```
+  After updating these values, running `terraform plan` will show the proposed changes, and `terraform apply` will enact them[1][3].
+
+- **Cost Implications:**  
+  Increasing the number of EC2 instances will directly increase AWS costs. The cost depends on the instance type, region, and usage. For example, t2.micro or t3.micro instances may be eligible for the AWS Free Tier, but larger or additional instances will incur charges[2]. Always validate the projected monthly cost in the AWS Pricing Calculator or your organization's cost management tools before deployment.
+
+- **Deployment and Monitoring:**  
+  - **Schedule a deployment window** to minimize risk and ensure support availability.
+  - **Update monitoring thresholds** in your alerting systems (e.g., CloudWatch alarms) to reflect the new expected instance count and traffic patterns[4].
+
+**Action Items Explained:**
+
+- **Review infrastructure changes:**  
+  Carefully review the Terraform diff (`terraform plan`) and the associated pull request to ensure only the intended scaling changes are included and that no unrelated resources are affected[1][3].
+
+- **Validate cost implications:**  
+  Use the AWS Pricing Calculator or your organization's cost dashboards to estimate the new monthly spend based on the increased instance count[2].
+
+- **Schedule deployment window:**  
+  Coordinate with stakeholders to choose a low-traffic period for applying the changes, reducing potential impact.
+
+- **Update monitoring thresholds:**  
+  Adjust alerting and scaling policies (e.g., CloudWatch alarms, scaling triggers) to match the new baseline and ensure continued reliability[4].
+
+**Caveats and Limitations:**
+
+- If your Terraform configuration manages a standalone EC2 instance (not an ASG), you must use a `count` or `for_each` parameter to increase the number of instances, but this is less common for production scaling[2].
+- Ensure that security groups, load balancers, and subnet configurations support the increased instance count[3][4].
+- If your infrastructure is not using an ASG, consider migrating to one for better scalability and resilience[1][3][4].
+
+**Summary of Immediate Next Steps:**
+
+- Review the pull request for correctness and scope.
+- Run `terraform plan` to preview changes.
+- Estimate and validate cost impact.
+- Schedule and communicate the deployment window.
+- Update monitoring and alerting configurations.
+
+This approach ensures a controlled, cost-aware, and reliable scaling of your EC2 infrastructure using Terraform.

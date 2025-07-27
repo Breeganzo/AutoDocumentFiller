@@ -60,19 +60,40 @@ resource "aws_instance" "web" {
     print(f"- JSON format: {mr_json}")
     print(f"- Text format: {mr_txt} (for easy reading)")
 
-    # Step 4: Create new JIRA ticket for the new task
+        # Step 4: Handle JIRA ticket
     ticket_summary = "Auto: Scale Up EC2"
     ticket = agent.generate_tickets(ticket_summary, context, pr_url)
     
     # Initialize JIRA client
     jira_client = JiraClient()
     
-    # Create a new ticket in the SMP project
-    jira_issue = jira_client.create_ticket(
-        project_key="SMP",
-        summary=ticket_summary,
-        description=ticket
-    )
+    # Keywords to search for similar tickets
+    keywords = ["Scale Up EC2", "EC2 scaling", "instance scaling"]
+    
+    # First, try to find an existing ticket in active sprint
+    existing_issue = jira_client.find_active_sprint_ticket(keywords)
+    
+    # If not found in active sprint, check recent tickets
+    if not existing_issue:
+        existing_issue = jira_client.find_recent_similar_ticket(keywords, days=30)
+    
+    if existing_issue:
+        # Update existing ticket
+        ticket_id = existing_issue.key
+        jira_issue = jira_client.update_ticket(
+            ticket_id=ticket_id,
+            description=f"{existing_issue.fields.description}\n\nUpdate from new merge request {mr.iid}:\n{ticket}"
+        )
+        jira_client.add_comment(ticket_id, f"Updated with new merge request: {pr_url}")
+        print(f"Updated existing JIRA ticket: {ticket_id}")
+    else:
+        # Create new ticket if no similar ticket exists
+        jira_issue = jira_client.create_ticket(
+            summary=ticket_summary,
+            description=ticket,
+            project_key=jira_client.project_key,
+        )
+        print(f"Created new JIRA ticket: {jira_issue.key}")
     ticket_id = jira_issue.key  # This will be something like "SMP-8", "SMP-9", etc.
     print(f"\nJIRA Ticket {ticket_id} created/updated")
     print(f"\nTicket Content:\n{ticket}")
